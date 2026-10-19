@@ -1,0 +1,66 @@
+@extends('layouts.main')
+
+@section('title', 'Tambah Data Siswa')
+
+@section('content')
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-user-graduate mr-2 text-primary"></i>Tambah Data Siswa</h1>
+        <a href="{{ route('siswa.index') }}" class="btn btn-sm btn-secondary shadow-sm">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i> Kembali
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Formulir Tambah Data Siswa</h6>
+        </div>
+        <div class="card-body">
+        <form action="{{ route('siswa.store') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="nis" class="font-weight-bold">NIS <span class="text-danger">*</span></label>
+                <input type="text" name="nis" id="nis" value="{{ old('nis') }}" class="form-control @error('nis') is-invalid @enderror" required>
+                @error('nis')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+            <div class="form-group">
+                <label for="nama" class="font-weight-bold">Nama Lengkap <span class="text-danger">*</span></label>
+                <input type="text" name="nama" id="nama" value="{{ old('nama') }}" class="form-control @error('nama') is-invalid @enderror" required>
+                @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+            <div class="form-group">
+                <label for="kelas_id" class="font-weight-bold">Kelas <span class="text-danger">*</span></label>
+                <select name="kelas_id" id="kelas_id" class="form-control @error('kelas_id') is-invalid @enderror" required>
+                    <option value="">-- Pilih Kelas --</option>
+                    @foreach ($kelas as $k)
+                        <option value="{{ $k->id }}" {{ old('kelas_id') == $k->id ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
+                    @endforeach
+                </select>
+                @error('kelas_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+            <div class="form-group">
+                <label for="jenis_kelamin" class="font-weight-bold">Jenis Kelamin <span class="text-danger">*</span></label>
+                <select name="jenis_kelamin" id="jenis_kelamin" class="form-control @error('jenis_kelamin') is-invalid @enderror" required>
+                    <option value="">-- Pilih --</option>
+                    <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-Laki</option>
+                    <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                </select>
+                @error('jenis_kelamin')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+            <div class="form-group">
+                <label for="no_hp" class="font-weight-bold">No HP</label>
+                <input type="text" name="no_hp" id="no_hp" value="{{ old('no_hp') }}" class="form-control @error('no_hp') is-invalid @enderror">
+                @error('no_hp')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+            <div class="form-group">
+                <label for="alamat" class="font-weight-bold">Alamat</label>
+                <textarea name="alamat" id="alamat" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat') }}</textarea>
+                @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <hr>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i> Simpan</button>
+            <a href="{{ route('siswa.index') }}" class="btn btn-secondary">Batal</a>
+        </form>
+        </div>
+    </div>
+@endsection
